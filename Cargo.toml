@@ -1,0 +1,15 @@
+[package]
+description = "A work-in-progress program to count SLOC"
+edition = "2021"
+license = "BSD-3-Clause"
+name = "slc"
+repository = "https://github.com/MattTheNub/source-line-count.git"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.53"
+clap = {version = "3.1.0", features = ["derive"]}
+itertools = "0.10.3"
+lazy_static = "1.4.0"
