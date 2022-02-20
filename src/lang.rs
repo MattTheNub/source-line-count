@@ -7,7 +7,7 @@ pub enum StringMode {
 }
 
 pub struct LangInfo {
-	pub name: String,
+	pub name: &'static str,
 	pub single_line_comment: Option<&'static str>,
 	pub start_comment: Option<&'static str>,
 	pub end_comment: Option<&'static str>,
@@ -31,7 +31,7 @@ macro_rules! langs {
 lazy_static! {
 	pub static ref LANGS: HashMap<String, LangInfo> = langs! {
 		"rs" => LangInfo {
-			name: "Rust".to_owned(),
+			name: "Rust",
 			single_line_comment: Some("//"),
 			start_comment: Some("/*"),
 			end_comment: Some("*/"),
