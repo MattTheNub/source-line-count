@@ -7,5 +7,5 @@ the future.
 ## Usage
 
 ```
-slc [FILE]
+slc [OPTIONS] <FILES>...
 ```
