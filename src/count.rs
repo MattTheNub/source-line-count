@@ -20,7 +20,7 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 
 			let mut is_sloc = false;
 			let mut lines = 0;
-			while let Some(character) = chars.peek() {
+			'outer: while let Some(character) = chars.peek() {
 				let character = *character;
 				if character == '\n' {
 					if is_sloc {
@@ -103,6 +103,7 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 									str_close = Some(quotes.to_owned());
 									close_escape = Some(format!(r"\{}", quotes));
 									backslash_escape = Some(r"\\".to_owned());
+									continue 'outer;
 								}
 							}
 						}
