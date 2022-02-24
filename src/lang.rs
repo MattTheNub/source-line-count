@@ -4,6 +4,7 @@ use std::collections::HashMap;
 pub enum StringMode {
 	Normal,
 	Rust,
+	Python,
 }
 
 pub struct LangInfo {
@@ -36,6 +37,13 @@ lazy_static! {
 			start_comment: Some("/*"),
 			end_comment: Some("*/"),
 			string_mode: StringMode::Rust,
+		},
+		"py" | "pyi" | "pyw"  => LangInfo {
+			name: "Python",
+			single_line_comment: Some("#"),
+			start_comment: None,
+			end_comment: None,
+			string_mode: StringMode::Python,
 		}
 	};
 }
