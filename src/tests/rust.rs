@@ -47,3 +47,14 @@ fn empty_lines() {
 
 	assert_eq!(count(code, "rs"), Some(4));
 }
+
+#[test]
+fn lone_quote() {
+	let code = r#"fn main() {
+			println!("The line below is not empty
+"
+);
+		}"#;
+
+	assert_eq!(count(code, "rs"), Some(5));
+}

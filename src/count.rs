@@ -60,6 +60,7 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 
 					// check if we have reached the end of the string
 					if peek_string(&mut chars, close) {
+						is_sloc = true;
 						str_close = None;
 					} else {
 						// treat the character as any other character

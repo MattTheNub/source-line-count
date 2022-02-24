@@ -16,3 +16,13 @@ fn comments() {
 
 	assert_eq!(count(code, "py"), Some(2));
 }
+
+#[test]
+fn lone_quote() {
+	let code = r#"print('''Hello
+'''
+)
+	print('World!')"#;
+
+	assert_eq!(count(code, "py"), Some(4));
+}
