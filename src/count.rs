@@ -108,6 +108,21 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 								}
 							}
 						}
+						StringMode::Cxx => {
+							if peek_string(&mut chars, r#"R"("#) {
+								is_sloc = true;
+								str_close = Some(r#")""#.to_owned());
+
+								continue;
+							} else if peek_string(&mut chars, r#"""#) {
+								is_sloc = true;
+								str_close = Some(r#"""#.to_owned());
+								close_escape = Some(r#"\""#.to_owned());
+								backslash_escape = Some(r"\\".to_owned());
+
+								continue;
+							}
+						}
 						StringMode::Normal => {
 							if peek_string(&mut chars, r#"""#) {
 								is_sloc = true;

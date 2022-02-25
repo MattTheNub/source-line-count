@@ -5,6 +5,7 @@ pub enum StringMode {
 	Normal,
 	Rust,
 	Python,
+	Cxx,
 }
 
 pub struct LangInfo {
@@ -38,12 +39,19 @@ lazy_static! {
 			end_comment: Some("*/"),
 			string_mode: StringMode::Rust,
 		},
-		"py" | "pyi" | "pyw"  => LangInfo {
+		"py" | "pyi" | "pyw" => LangInfo {
 			name: "Python",
 			single_line_comment: Some("#"),
 			start_comment: None,
 			end_comment: None,
 			string_mode: StringMode::Python,
+		},
+		"cpp" | "cxx" | "c++" | "cc" | "h" | "hh" | "hpp" | "hxx" | "h++" => LangInfo {
+			name: "C++",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Cxx,
 		}
 	};
 }
