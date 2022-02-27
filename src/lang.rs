@@ -2,7 +2,10 @@ use lazy_static::lazy_static;
 use std::collections::HashMap;
 
 pub enum StringMode {
-	Normal(&'static [&'static str]),
+	Normal {
+		quotes: &'static [&'static str],
+		escape: bool,
+	},
 	Rust,
 	Cxx,
 }
@@ -44,7 +47,10 @@ lazy_static! {
 			start_comment: None,
 			end_comment: None,
 			// triple quotes need priority over normal quotes
-			string_mode: StringMode::Normal(&[r#"""""#, "'''", r#"""#, "'"]),
+			string_mode: StringMode::Normal {
+				quotes: &[r#"""""#, "'''", r#"""#, "'"],
+				escape: true,
+			}
 		},
 		"cpp" | "cxx" | "c++" | "cc" | "h" | "hh" | "hpp" | "hxx" | "h++" => LangInfo {
 			name: "C++",
@@ -52,6 +58,16 @@ lazy_static! {
 			start_comment: Some("/*"),
 			end_comment: Some("*/"),
 			string_mode: StringMode::Cxx,
+		},
+		"html" | "htm" => LangInfo {
+			name: "HTML",
+			single_line_comment: None,
+			start_comment: Some("<!--"),
+			end_comment: Some("-->"),
+			string_mode: StringMode::Normal {
+				quotes: &[r#"""#, "'"],
+				escape: false,
+			}
 		}
 	};
 }
