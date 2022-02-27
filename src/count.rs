@@ -96,18 +96,6 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 								continue;
 							}
 						}
-						StringMode::Python => {
-							// triple quotes need priority over normal quotes
-							for quotes in [r#"""""#, "'''", r#"""#, "'"] {
-								if peek_string(&mut chars, quotes) {
-									is_sloc = true;
-									str_close = Some(quotes.to_owned());
-									close_escape = Some(format!(r"\{}", quotes));
-									backslash_escape = Some(r"\\".to_owned());
-									continue 'outer;
-								}
-							}
-						}
 						StringMode::Cxx => {
 							if peek_string(&mut chars, r#"R"("#) {
 								is_sloc = true;
@@ -123,14 +111,15 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 								continue;
 							}
 						}
-						StringMode::Normal => {
-							if peek_string(&mut chars, r#"""#) {
-								is_sloc = true;
-								str_close = Some(r#"""#.to_owned());
-								close_escape = Some(r#"\""#.to_owned());
-								backslash_escape = Some(r"\\".to_owned());
-
-								continue;
+						StringMode::Normal(quotes) => {
+							for quotes in quotes {
+								if peek_string(&mut chars, quotes) {
+									is_sloc = true;
+									str_close = Some(quotes.to_string());
+									close_escape = Some(format!(r"\{}", quotes));
+									backslash_escape = Some(r"\\".to_owned());
+									continue 'outer;
+								}
 							}
 						}
 					}

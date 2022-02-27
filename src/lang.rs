@@ -2,9 +2,8 @@ use lazy_static::lazy_static;
 use std::collections::HashMap;
 
 pub enum StringMode {
-	Normal,
+	Normal(&'static [&'static str]),
 	Rust,
-	Python,
 	Cxx,
 }
 
@@ -44,7 +43,8 @@ lazy_static! {
 			single_line_comment: Some("#"),
 			start_comment: None,
 			end_comment: None,
-			string_mode: StringMode::Python,
+			// triple quotes need priority over normal quotes
+			string_mode: StringMode::Normal(&[r#"""""#, "'''", r#"""#, "'"]),
 		},
 		"cpp" | "cxx" | "c++" | "cc" | "h" | "hh" | "hpp" | "hxx" | "h++" => LangInfo {
 			name: "C++",
