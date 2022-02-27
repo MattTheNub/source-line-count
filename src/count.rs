@@ -111,13 +111,16 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 								continue;
 							}
 						}
-						StringMode::Normal(quotes) => {
+						StringMode::Normal { quotes, escape } => {
 							for quotes in quotes {
 								if peek_string(&mut chars, quotes) {
 									is_sloc = true;
 									str_close = Some(quotes.to_string());
-									close_escape = Some(format!(r"\{}", quotes));
-									backslash_escape = Some(r"\\".to_owned());
+									if escape {
+										close_escape = Some(format!(r"\{}", quotes));
+										backslash_escape = Some(r"\\".to_owned());
+									}
+
 									continue 'outer;
 								}
 							}
