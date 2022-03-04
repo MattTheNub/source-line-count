@@ -10,7 +10,7 @@ fn basic() {
 	</span>
 </p>"#;
 
-	assert_eq!(count(code, "html"), Some(6));
+	assert_eq!(count(code, "html").map(|x| x.lines), Some(6));
 }
 
 #[test]
@@ -24,5 +24,5 @@ fn comments() {
 	</span>
 </p>"#;
 
-	assert_eq!(count(code, "html"), Some(6));
+	assert_eq!(count(code, "html").map(|x| x.lines), Some(6));
 }

@@ -1,7 +1,7 @@
 use crate::count::count;
 use anyhow::{bail, Context};
 use clap::Parser;
-use std::{cmp, fs, path::PathBuf};
+use std::{cmp, collections::HashMap, fs, path::PathBuf};
 
 pub mod count;
 pub mod lang;
@@ -15,6 +15,13 @@ mod tests;
 struct Cli {
 	#[clap(short, long)]
 	recursive: bool,
+	#[clap(
+		long,
+		short = 'L',
+		help = "Organize by language",
+		long_help = "Organizes line counts by language instead of filename"
+	)]
+	by_lang: bool,
 	#[clap(required = true, parse(from_os_str))]
 	files: Vec<PathBuf>,
 }
@@ -22,7 +29,8 @@ struct Cli {
 fn main() -> anyhow::Result<()> {
 	let args = Cli::parse();
 
-	let mut file_lines = Vec::new();
+	// organized by file or language, depending on the users choice
+	let mut file_lines = HashMap::new();
 	let mut file_skips = 0;
 	// If only one file is skipped, we will display the extension
 	let mut skipped_ext = None;
@@ -31,6 +39,7 @@ fn main() -> anyhow::Result<()> {
 		handle_path(
 			path,
 			args.recursive,
+			args.by_lang,
 			&mut file_lines,
 			&mut skipped_ext,
 			&mut file_skips,
@@ -70,7 +79,11 @@ fn main() -> anyhow::Result<()> {
 	let row_len = file_len + lines_len + 5;
 
 	// Print the header row
-	print!(" {:width$} ", "File", width = file_len);
+	print!(
+		" {:width$} ",
+		if args.by_lang { "Language" } else { "File" },
+		width = file_len
+	);
 	print!("| {:width$} ", "Lines", width = lines_len);
 	println!();
 	// Separator
@@ -96,7 +109,8 @@ fn main() -> anyhow::Result<()> {
 fn handle_path(
 	path: PathBuf,
 	recursive: bool,
-	file_lines: &mut Vec<(String, usize)>,
+	by_lang: bool,
+	file_lines: &mut HashMap<String, usize>,
 	skipped_ext: &mut Option<String>,
 	file_skips: &mut u32,
 ) -> anyhow::Result<()> {
@@ -104,7 +118,14 @@ fn handle_path(
 	if let Ok(dir) = dir {
 		if recursive {
 			for entry in dir.flatten() {
-				handle_path(entry.path(), recursive, file_lines, skipped_ext, file_skips)?;
+				handle_path(
+					entry.path(),
+					recursive,
+					by_lang,
+					file_lines,
+					skipped_ext,
+					file_skips,
+				)?;
 			}
 		} else {
 			eprintln!(
@@ -122,12 +143,17 @@ fn handle_path(
 		Some(ext) => ext.to_str().unwrap_or(""),
 		None => "",
 	};
-	let lines = count(&file, ext);
+	let result = count(&file, ext);
 	// .with_context(|| format!("The extension '{}' is not supported", ext))?;
 
-	if let Some(lines) = lines {
-		let path_string = path.to_string_lossy().to_string();
-		file_lines.push((path_string, lines));
+	if let Some(result) = result {
+		if by_lang {
+			let lang_lines = *file_lines.get(result.lang).unwrap_or(&0);
+			file_lines.insert(result.lang.to_string(), lang_lines + result.lines);
+		} else {
+			let path_string = path.to_string_lossy().to_string();
+			file_lines.insert(path_string, result.lines);
+		}
 	} else {
 		*skipped_ext = Some(ext.to_owned());
 		*file_skips += 1;

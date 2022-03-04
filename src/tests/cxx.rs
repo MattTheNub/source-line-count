@@ -6,7 +6,7 @@ fn basic() {
 		cout << "Hello, world!" << endl;
 	}"#;
 
-	assert_eq!(count(code, "cpp"), Some(3));
+	assert_eq!(count(code, "cpp").map(|x| x.lines), Some(3));
 }
 
 #[test]
@@ -19,7 +19,7 @@ fn comments() {
 		cout << "Hello, world!" << endl;
 	}"#;
 
-	assert_eq!(count(code, "cpp"), Some(3));
+	assert_eq!(count(code, "cpp").map(|x| x.lines), Some(3));
 }
 
 #[test]
@@ -30,5 +30,5 @@ this quote is ignored, and this is still not a comment */
 // and neither is this)";
 	}"#;
 
-	assert_eq!(count(code, "cpp"), Some(5));
+	assert_eq!(count(code, "cpp").map(|x| x.lines), Some(5));
 }
