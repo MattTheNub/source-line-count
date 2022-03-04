@@ -4,7 +4,12 @@ use crate::{
 };
 use itertools::multipeek;
 
-pub fn count(file: &str, ext: &str) -> Option<usize> {
+pub struct CountResult {
+	pub lines: usize,
+	pub lang: &'static str,
+}
+
+pub fn count(file: &str, ext: &str) -> Option<CountResult> {
 	let mut chars = multipeek(file.chars());
 	let lang = LANGS.get(ext);
 
@@ -146,7 +151,10 @@ pub fn count(file: &str, ext: &str) -> Option<usize> {
 				lines += 1;
 			}
 
-			Some(lines)
+			Some(CountResult {
+				lines,
+				lang: lang.name,
+			})
 		}
 	}
 }

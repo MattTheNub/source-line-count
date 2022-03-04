@@ -6,7 +6,7 @@ fn basic() {
 			println!("Hello, world!");
 		}"#;
 
-	assert_eq!(count(code, "rs"), Some(3));
+	assert_eq!(count(code, "rs").map(|x| x.lines), Some(3));
 }
 
 #[test]
@@ -16,7 +16,7 @@ fn comments() {
 			println!("Hello, world!");
 		}"#;
 
-	assert_eq!(count(code, "rs"), Some(3));
+	assert_eq!(count(code, "rs").map(|x| x.lines), Some(3));
 }
 
 #[test]
@@ -33,7 +33,7 @@ fn multiline_comments() {
 		println!("Hello, world!" /* this comment is in a line of code */);
 		}"#;
 
-	assert_eq!(count(code, "rs"), Some(6));
+	assert_eq!(count(code, "rs").map(|x| x.lines), Some(6));
 }
 
 #[test]
@@ -45,7 +45,7 @@ fn empty_lines() {
 		
 		}"#;
 
-	assert_eq!(count(code, "rs"), Some(4));
+	assert_eq!(count(code, "rs").map(|x| x.lines), Some(4));
 }
 
 #[test]
@@ -56,5 +56,5 @@ fn lone_quote() {
 );
 		}"#;
 
-	assert_eq!(count(code, "rs"), Some(5));
+	assert_eq!(count(code, "rs").map(|x| x.lines), Some(5));
 }

@@ -5,7 +5,7 @@ fn basic() {
 	let code = r#"print('Hello')
 	print('World!')"#;
 
-	assert_eq!(count(code, "py"), Some(2));
+	assert_eq!(count(code, "py").map(|x| x.lines), Some(2));
 }
 
 #[test]
@@ -14,7 +14,7 @@ fn comments() {
 	print('World!')
 	# This is a comment"#;
 
-	assert_eq!(count(code, "py"), Some(2));
+	assert_eq!(count(code, "py").map(|x| x.lines), Some(2));
 }
 
 #[test]
@@ -24,5 +24,5 @@ fn lone_quote() {
 )
 	print('World!')"#;
 
-	assert_eq!(count(code, "py"), Some(4));
+	assert_eq!(count(code, "py").map(|x| x.lines), Some(4));
 }
