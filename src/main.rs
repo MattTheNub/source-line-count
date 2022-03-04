@@ -70,7 +70,8 @@ fn main() -> anyhow::Result<()> {
 	// Make a table of line counts for all files
 
 	// Find the width we need to use for each column
-	let mut file_len = "File".len();
+	let left_header = if args.by_lang { "Language" } else { "File" };
+	let mut file_len = cmp::max(left_header.len(), "Total".len());
 	let mut lines_len = "Lines".len();
 	for (file, lines) in &file_lines {
 		file_len = cmp::max(file_len, file.len());
@@ -79,11 +80,7 @@ fn main() -> anyhow::Result<()> {
 	let row_len = file_len + lines_len + 5;
 
 	// Print the header row
-	print!(
-		" {:width$} ",
-		if args.by_lang { "Language" } else { "File" },
-		width = file_len
-	);
+	print!(" {:width$} ", left_header, width = file_len);
 	print!("| {:width$} ", "Lines", width = lines_len);
 	println!();
 	// Separator
