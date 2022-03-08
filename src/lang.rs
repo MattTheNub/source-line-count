@@ -68,6 +68,16 @@ lazy_static! {
 				quotes: &[r#"""#, "'"],
 				escape: false,
 			}
+		},
+		"js" | "cjs" | "mjs" => LangInfo {
+			name: "JavaScript",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Normal {
+				quotes: &["`", r#"""#, "'"],
+				escape: true,
+			}
 		}
 	};
 }
