@@ -78,6 +78,16 @@ lazy_static! {
 				quotes: &["`", r#"""#, "'"],
 				escape: true,
 			}
+		},
+		"ts" => LangInfo {
+			name: "TypeScript",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Normal {
+				quotes: &["`", r#"""#, "'"],
+				escape: true,
+			}
 		}
 	};
 }
