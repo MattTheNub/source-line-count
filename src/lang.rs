@@ -88,6 +88,16 @@ lazy_static! {
 				quotes: &["`", r#"""#, "'"],
 				escape: true,
 			}
+		},
+		"css" => LangInfo {
+			name: "CSS",
+			single_line_comment: None,
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Normal {
+				quotes: &[r#"""#, "'"],
+				escape: true,
+			}
 		}
 	};
 }
