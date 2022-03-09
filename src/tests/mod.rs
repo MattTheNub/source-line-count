@@ -4,3 +4,4 @@ mod html;
 mod js;
 mod python;
 mod rust;
+mod ts;
