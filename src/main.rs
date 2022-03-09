@@ -22,6 +22,20 @@ struct Cli {
 		long_help = "Organizes line counts by language instead of filename"
 	)]
 	by_lang: bool,
+	#[clap(
+		long,
+		short = 'A',
+		help = "Sort alphabetically",
+		long_help = "Sorts line counts alphabetically, instead of by line count"
+	)]
+	alphabetical: bool,
+	#[clap(
+		long,
+		short = 'R',
+		help = "Display in reverse order",
+		long_help = "Displays in ascending order or in reverse alphabetical order"
+	)]
+	reverse: bool,
 	#[clap(required = true, parse(from_os_str))]
 	files: Vec<PathBuf>,
 }
@@ -65,6 +79,17 @@ fn main() -> anyhow::Result<()> {
 			"Warning: {} files with invalid extensions ignored",
 			file_skips
 		);
+	}
+
+	// Sort all the line counts
+	let mut file_lines: Vec<(String, usize)> = file_lines.into_iter().collect();
+	if args.alphabetical {
+		file_lines.sort_unstable_by(|a, b| a.0.cmp(&b.0))
+	} else {
+		file_lines.sort_unstable_by(|a, b| b.1.cmp(&a.1));
+	}
+	if args.reverse {
+		file_lines.reverse();
 	}
 
 	// Make a table of line counts for all files
