@@ -69,7 +69,7 @@ lazy_static! {
 				escape: false,
 			}
 		},
-		"js" | "cjs" | "mjs" => LangInfo {
+		"js" | "cjs" | "mjs" | "jsx" => LangInfo {
 			name: "JavaScript",
 			single_line_comment: Some("//"),
 			start_comment: Some("/*"),
@@ -79,7 +79,7 @@ lazy_static! {
 				escape: true,
 			}
 		},
-		"ts" => LangInfo {
+		"ts" | "tsx" => LangInfo {
 			name: "TypeScript",
 			single_line_comment: Some("//"),
 			start_comment: Some("/*"),
