@@ -52,7 +52,7 @@ lazy_static! {
 				escape: true,
 			}
 		},
-		"cpp" | "cxx" | "c++" | "cc" | "h" | "hh" | "hpp" | "hxx" | "h++" => LangInfo {
+		"cpp" | "cxx" | "c++" | "cc" => LangInfo {
 			name: "C++",
 			single_line_comment: Some("//"),
 			start_comment: Some("/*"),
@@ -98,6 +98,20 @@ lazy_static! {
 				quotes: &[r#"""#, "'"],
 				escape: true,
 			}
+		},
+		"c" => LangInfo {
+			name: "C",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Cxx,
+		},
+		"h" | "hh" | "hpp" | "hxx" | "h++"  => LangInfo {
+			name: "C/C++ Header",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Cxx,
 		}
 	};
 }
