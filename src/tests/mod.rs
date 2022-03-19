@@ -2,6 +2,7 @@ mod c;
 mod css;
 mod cxx;
 mod general;
+mod h;
 mod html;
 mod js;
 mod python;
