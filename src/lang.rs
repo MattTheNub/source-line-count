@@ -98,6 +98,13 @@ lazy_static! {
 				quotes: &[r#"""#, "'"],
 				escape: true,
 			}
+		},
+		"c" => LangInfo {
+			name: "C",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Cxx,
 		}
 	};
 }
