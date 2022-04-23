@@ -116,6 +116,22 @@ pub fn count(file: &str, ext: &str) -> Option<CountResult> {
 								continue;
 							}
 						}
+						StringMode::CSharp => {
+							if peek_string(&mut chars, r#"@""#) {
+								is_sloc = true;
+								str_close = Some(r#"""#.to_owned());
+								close_escape = Some(r#""""#.to_owned());
+
+								continue;
+							} else if peek_string(&mut chars, r#"""#) {
+								is_sloc = true;
+								str_close = Some(r#"""#.to_owned());
+								close_escape = Some(r#"\""#.to_owned());
+								backslash_escape = Some(r"\\".to_owned());
+
+								continue;
+							}
+						}
 						StringMode::Normal { quotes, escape } => {
 							for quotes in quotes {
 								if peek_string(&mut chars, quotes) {
