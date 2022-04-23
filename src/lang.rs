@@ -8,6 +8,7 @@ pub enum StringMode {
 	},
 	Rust,
 	Cxx,
+	CSharp,
 }
 
 pub struct LangInfo {
@@ -112,6 +113,13 @@ lazy_static! {
 			start_comment: Some("/*"),
 			end_comment: Some("*/"),
 			string_mode: StringMode::Cxx,
+		},
+		"cs" | "csx" => LangInfo {
+			name: "C#",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::CSharp,
 		}
 	};
 }
