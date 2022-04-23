@@ -1,5 +1,5 @@
 mod c;
-pub mod cs;
+mod cs;
 mod css;
 mod cxx;
 mod general;
