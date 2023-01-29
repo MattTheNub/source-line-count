@@ -9,6 +9,7 @@ pub enum StringMode {
 	Rust,
 	Cxx,
 	CSharp,
+	Java,
 }
 
 pub struct LangInfo {
@@ -120,6 +121,13 @@ lazy_static! {
 			start_comment: Some("/*"),
 			end_comment: Some("*/"),
 			string_mode: StringMode::CSharp,
+		},
+		"java" => LangInfo {
+			name: "Java",
+			single_line_comment: Some("//"),
+			start_comment: Some("/*"),
+			end_comment: Some("*/"),
+			string_mode: StringMode::Java,
 		}
 	};
 }

@@ -5,6 +5,7 @@ mod cxx;
 mod general;
 mod h;
 mod html;
+mod java;
 mod js;
 mod python;
 mod rust;
